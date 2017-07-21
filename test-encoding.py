@@ -63,7 +63,10 @@ def main():
 
     out += hrule() + guide_row()
 
-    write(out.decode(encoding).encode(args.output_encoding))
+    if not args.raw:
+        out = out.decode(encoding).encode(args.output_encoding)
+
+    write(out)
 
 if __name__ == '__main__':
     main()
