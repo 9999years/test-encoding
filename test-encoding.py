@@ -36,7 +36,7 @@ def x(n):
     return enc(hex(n)[2:])
 
 def guide_row():
-    ret = b''
+    ret = space * 2
     for i in range(0x10):
         ret += x(i)
     return ret + nl
@@ -45,10 +45,10 @@ def row(n):
     out = b''
     for i in range(0x10):
         out += enc(i + n * 0x10)
-    return out + space + x(n) + nl
+    return x(n) + space + out + space + x(n) + nl
 
 def hrule(width=0x10):
-    return enc('-') * width + nl
+    return space * 2 + enc('-') * width + nl
 
 space = enc(' ')
 nl    = enc('\n')
