@@ -61,7 +61,7 @@ def main():
             continue
         out += row(i)
 
-    out += hrule() + guide_row()
+    out += hrule() + guide_row() + nl * 2
 
     if not args.raw:
         out = out.decode(encoding).encode(args.output_encoding)
