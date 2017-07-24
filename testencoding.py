@@ -41,7 +41,7 @@ def cp(height=0xf, raw=False, skip_rows=[],
         edian='little', output_encoding='utf-8', encoding='latin-1'):
     out = guide_row() + hrule()
 
-    for i in range(height):
+    for i in range(height + 1):
         if i in skip_rows:
             continue
         out += row(i)
