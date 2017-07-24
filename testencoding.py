@@ -46,7 +46,7 @@ def cp(height=0xf, raw=False, skip_rows=[],
             continue
         out += row(i)
 
-    out += hrule() + guide_row() + nl * 2
+    out += hrule() + guide_row()
 
     if not raw:
         out = out.decode(encoding).encode(output_encoding)
@@ -75,6 +75,7 @@ def main():
 
     cp(height=height, encoding=encoding, edian=edian, raw=args.raw,
         skip_rows=args.skip_rows, output_encoding=args.output_encoding)
+    write(nl * 2)
 
 if __name__ == '__main__':
     main()
