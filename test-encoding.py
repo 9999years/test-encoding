@@ -2,24 +2,8 @@
 import sys
 import argparse
 
-parser = argparse.ArgumentParser()
-
-parser.add_argument('-e', '--encoding', type=str, default='latin-1')
-
-parser.add_argument('-t', '--output-encoding', type=str, default='utf-8')
-
-parser.add_argument('-b', '--big-edian', action='store_true')
-
-parser.add_argument('-s', '--skip-rows', type=int, nargs='*', default=[])
-
-parser.add_argument('-i', '--height', type=int, default=0xf)
-
-parser.add_argument('-r', '--raw', action='store_true')
-
-args = parser.parse_args()
-encoding = args.encoding
-edian = 'big' if args.big_edian else 'little'
-height = args.height
+encoding = 'latin-1'
+edian = 'little'
 
 def enc(txt):
     if isinstance(txt, str):
@@ -53,20 +37,44 @@ def hrule(width=0x10):
 space = enc(' ')
 nl    = enc('\n')
 
-def main():
+def cp(height=0xf, raw=False, skip_rows=[],
+        edian='little', output_encoding='utf-8', encoding='latin-1'):
     out = guide_row() + hrule()
 
     for i in range(height):
-        if i in args.skip_rows:
+        if i in skip_rows:
             continue
         out += row(i)
 
     out += hrule() + guide_row() + nl * 2
 
-    if not args.raw:
-        out = out.decode(encoding).encode(args.output_encoding)
+    if not raw:
+        out = out.decode(encoding).encode(output_encoding)
 
     write(out)
+
+def main():
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('-e', '--encoding', type=str, default='latin-1')
+
+    parser.add_argument('-t', '--output-encoding', type=str, default='utf-8')
+
+    parser.add_argument('-b', '--big-edian', action='store_true')
+
+    parser.add_argument('-s', '--skip-rows', type=int, nargs='*', default=[])
+
+    parser.add_argument('-i', '--height', type=int, default=0xf)
+
+    parser.add_argument('-r', '--raw', action='store_true')
+
+    args = parser.parse_args()
+    encoding = args.encoding
+    edian = 'big' if args.big_edian else 'little'
+    height = args.height
+
+    cp(height=height, encoding=encoding, edian=edian, raw=args.raw,
+        skip_rows=args.skip_rows, output_encoding=args.output_encoding)
 
 if __name__ == '__main__':
     main()
